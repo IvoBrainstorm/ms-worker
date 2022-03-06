@@ -2,30 +2,19 @@ package mz.co.matavele.hrpayroll.services;
 
 import mz.co.matavele.hrpayroll.entities.Payment;
 import mz.co.matavele.hrpayroll.entities.Worker;
+import mz.co.matavele.hrpayroll.feignclients.WorkerFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class PaymentService {
 
-    @Value("${hr-worker-host}")
-    private String workerhost;
-
     @Autowired
-    private RestTemplate restTemplate;
+    private WorkerFeignClient workerFeignClient;
 
     public Payment getPayment(long workerId, int days){
-
-        Map<String, String> uriVariables = new HashMap<>();
-        uriVariables.put("id", String.valueOf(workerId));
-
-        Worker worker = restTemplate.getForObject(workerhost + "/worker/{id}", Worker.class, uriVariables);
-
+        Worker worker = workerFeignClient.getById(workerId).getBody();
         return new Payment(worker.getName(), worker.getDailyIncome(), days);
     }
 }
