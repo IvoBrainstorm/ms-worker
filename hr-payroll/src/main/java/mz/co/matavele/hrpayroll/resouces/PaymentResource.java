@@ -1,5 +1,6 @@
 package mz.co.matavele.hrpayroll.resouces;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import mz.co.matavele.hrpayroll.entities.Payment;
 import mz.co.matavele.hrpayroll.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,15 @@ public class PaymentResource {
     @Autowired
     private PaymentService service;
 
+    @HystrixCommand(fallbackMethod = "fallBackPayment")
     @GetMapping(value = "/{workerId}/days/{days}")
     public ResponseEntity<Payment> getpayment(@PathVariable Long workerId, @PathVariable Integer days){
         Payment payment = service.getPayment(workerId, days);
+        return ResponseEntity.ok(payment);
+    }
+
+    public ResponseEntity<Payment> fallBackPayment(Long workerId, Integer days){
+        Payment payment = new Payment("no name", 0.0, days);
         return ResponseEntity.ok(payment);
     }
 }
