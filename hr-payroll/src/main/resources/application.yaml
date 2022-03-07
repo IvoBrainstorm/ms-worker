@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: hr-payroll
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: true
+
+server:
+  port:8101
+
+hr-worker:
+  ribbon:
+    listOfServers:localhost:8001,localhost:8002
+
