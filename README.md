@@ -6,8 +6,9 @@ Projecto de Micro Serviços com objectivo de colocar em prática conhecimento en
 2. Spring Boot;
 3.  FeignRibbon;
 4.  Hystrix;
-5.  OAuth; JWT;
-6.  Discovery Server Eureka;
-7.  API Gateway Zuul;
-8.  Config Server; &
-9.  Docker.
+5.  OAuth; 
+6.  JWT;
+7.  Discovery Server Eureka;
+8.  API Gateway Zuul;
+9.  Config Server; &
+10.  Docker.
